@@ -1,4 +1,8 @@
-require_relative 'auckland_transport'
+require_relative 'auckland_transport_api'
+require 'mongo'
 require 'pry'
+require 'dotenv'
 
-Pry::ColorPrinter.pp(AucklandTranport.get_data(106))
+Dotenv.load
+Mongo::Client.new(ENV['MONGO_URL'])
+Pry::ColorPrinter.pp(AucklandTranportApi.get_data(106))
