@@ -1,4 +1,4 @@
-class ScheduleFormatter
+class TimetableFormatter
   def self.format(data)
     data["response"]["movements"].map do |bus|
       out = {

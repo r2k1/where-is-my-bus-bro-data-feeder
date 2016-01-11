@@ -1,16 +1,16 @@
 require_relative 'auckland_transport_api'
-require_relative 'schedule_formatter'
+require_relative 'timetable_formatter'
 require 'mongo'
 require 'pry'
 require 'dotenv'
 
 Dotenv.load
 data = AucklandTranportApi.get_data(106)
-data = ScheduleFormatter.format(data)
+data = TimetableFormatter.format(data)
 
 stop_codes = data.uniq { |d| d[:stop_code] }.map { |d| d[:stop_code] }
 mongo_client = Mongo::Client.new(ENV['MONGO_URL'])
-schedules = mongo_client[:schedules]
-schedules.delete_many(stopCode: {'$in': stop_codes})
-schedules.insert_many(data)
+timetable = mongo_client[:timetable]
+timetable.delete_many(stopCode: {'$in': stop_codes})
+timetable.insert_many(data)
 Pry::ColorPrinter.pp(data)
