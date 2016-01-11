@@ -4,13 +4,17 @@ class ScheduleFormatter
       out = {
         timestamp:                Time.parse(bus['timestamp']),
         destination:              bus['destinationDisplay'],
-        stop_code:                bus['stop_code'],
-        scheduled_arrival_time:   Time.parse(bus['scheduledArrivalTime']),
-        scheduled_departure_time: Time.parse(bus['scheduledArrivalTime']),
-        route_short_name:         bus['route_short_name']
+        stopCode:                 bus['stop_code'],
+        scheduledArrivalTime:     Time.parse(bus['scheduledArrivalTime']),
+        scheduledDepartureTime:   Time.parse(bus['scheduledArrivalTime']),
+        routeShortName:           bus['route_short_name']
       }
-      out[:expected_arrival_time] = Time.parse(bus['expectedArrivalTime']) if bus['expectedArrivalTime']
-      out[:expected_departure_time] = Time.parse(bus['expectedDepartureTime']) if bus['expectedDepartureTime']
+      if bus['expectedArrivalTime']
+        out[:expectedArrivalTime] = Time.parse(bus['expectedArrivalTime'])
+      end
+      if bus['expectedDepartureTime']
+        out[:expectedDepartureTime] = Time.parse(bus['expectedDepartureTime'])
+      end
       out
     end
   end

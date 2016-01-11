@@ -11,6 +11,6 @@ data = ScheduleFormatter.format(data)
 stop_codes = data.uniq { |d| d[:stop_code] }.map { |d| d[:stop_code] }
 mongo_client = Mongo::Client.new(ENV['MONGO_URL'])
 schedules = mongo_client[:schedules]
-schedules.delete_many('stop_code': {'$in': stop_codes})
+schedules.delete_many(stopCode: {'$in': stop_codes})
 schedules.insert_many(data)
 Pry::ColorPrinter.pp(data)
