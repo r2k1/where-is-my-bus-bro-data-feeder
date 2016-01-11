@@ -1,26 +1,17 @@
 require_relative 'auckland_transport_api'
+require_relative 'schedule_formatter'
 require 'mongo'
 require 'pry'
 require 'dotenv'
 
 Dotenv.load
-Mongo::Client.new(ENV['MONGO_URL'])
 data = AucklandTranportApi.get_data(106)
+data = ScheduleFormatter.format(data)
 
-def format(data)
-  data["response"]["movements"].map do |bus|
-    out = {
-      timestamp:                Time.parse(bus['timestamp']),
-      destination:              bus['destinationDisplay'],
-      stop_code:                bus['stop_code'],
-      scheduled_arrival_time:   Time.parse(bus['scheduledArrivalTime']),
-      scheduled_departure_time: Time.parse(bus['scheduledArrivalTime']),
-      route_short_name:         bus['route_short_name']
-    }
-    out[:expected_arrival_time] = Time.parse(bus['expectedArrivalTime']) if bus['expectedArrivalTime']
-    out[:expected_departure_time] = Time.parse(bus['expectedDepartureTime']) if bus['expectedDepartureTime']
-    out
-  end
-end
+stop_codes = data.uniq { |d| d[:stop_code] }.map { |d| d[:stop_code] }
+mongo_client = Mongo::Client.new(ENV['MONGO_URL'])
+schedules = mongo_client[:schedules]
+schedules.find('bus_stop': {'$in': stop_codes}).delete_many
+schedules.insert_many(data)
 
-Pry::ColorPrinter.pp(format(data))
+Pry::ColorPrinter.pp(data)
