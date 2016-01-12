@@ -10,9 +10,6 @@ class AucklandTranportApi
   API_KEY = 'c2799f9d4f593eb7d77f2ccf6a509521'
   API_SECRET = 'da999252e5b90e7dee0e69a735ec23df'
   BASE_URL = 'https://api.at.govt.nz/v1/public-restricted/departures/'
-  TRAIN_IDS = []
-  BUS_IDS = []
-  FERRY_IDS = []
 
   def self.get_data(bus_station)
     uri = URI(generate_url(bus_station))
