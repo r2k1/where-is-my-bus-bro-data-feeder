@@ -2,18 +2,18 @@ GEM
   remote: https://rubygems.org/
   specs:
     bson (4.0.0)
+    bson (4.0.0-java)
     dotenv (2.0.2)
     mongo (2.2.1)
       bson (~> 4.0)
-    oj (2.14.3)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
   dotenv
   mongo (~> 2.1)
-  oj
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

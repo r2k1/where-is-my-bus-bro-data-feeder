@@ -3,7 +3,7 @@ require 'base64'
 require 'openssl'
 require 'net/http'
 require 'uri'
-require 'oj'
+require 'json'
 
 # Auckland transport signature generatation algoritm
 class AucklandTranportApi
@@ -14,7 +14,7 @@ class AucklandTranportApi
   def self.get_data(bus_station)
     uri = URI(generate_url(bus_station))
     json = Net::HTTP.get(uri)
-    Oj.load(json)
+    JSON.parse(json)
   end
 
   private
