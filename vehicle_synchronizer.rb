@@ -66,7 +66,7 @@ class VehicleSynchronizer
       !existed_data.any? { |e| e[:_id] == row[:_id] }
     end
     vehicles.each do |vehicle|
-      route = routes.find { |r| r['route_id'] = vehicle[:route_id] }
+      route = routes.find { |r| r['route_id'] == vehicle[:route_id] }
       vehicle[:route_short_name] = route['route_short_name']
       vehicle[:route_long_name] = route['route_long_name']
     end
