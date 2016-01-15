@@ -1,7 +1,5 @@
 require_relative 'at_api'
 require 'mongo'
-require 'dotenv'
-require 'pry'
 
 class VehicleSynchronizer
   attr_accessor :data, :existed_data, :collection, :routes
@@ -85,6 +83,3 @@ class VehicleSynchronizer
     end
   end
 end
-
-Dotenv.load
-VehicleSynchronizer.new.sync
