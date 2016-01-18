@@ -5,9 +5,7 @@ require 'json'
 class ATApi
     BASE_URL = 'https://api.at.govt.nz/v1'
     def get_locations
-      uri = build_uri('public/realtime/vehiclelocations')
-      json = Net::HTTP.get(uri)
-      JSON.parse(json)
+      get_json('public/realtime/vehiclelocations')
     end
 
     def get_routes
