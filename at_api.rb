@@ -11,14 +11,16 @@ class ATApi
     end
 
     def get_routes
-      uri = build_uri('gtfs/routes')
-      json = Net::HTTP.get(uri)
-      JSON.parse(json)
+      get_json('gtfs/routes')
     end
 
-    private
-
-    def build_uri(location)
-      URI("#{BASE_URL}/#{location}?api_key=#{ENV['AT_API_KEY']}")
+    def get_json(path)
+      begin
+        uri = URI("#{BASE_URL}/#{path}?api_key=#{ENV['AT_API_KEY']}")
+        json = Net::HTTP.get(uri)
+        JSON.parse(json)
+      rescue Errno::ECONNRESET
+        nil
+      end
     end
 end

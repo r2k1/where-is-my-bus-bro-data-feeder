@@ -7,10 +7,12 @@ class VehicleSynchronizer
   def initialize
     self.collection = Mongo::Client.new(ENV['MONGO_URL'])[:vehicles]
     self.routes = ATApi.new.get_routes['response']
+    raise "Can't get routes" unless self.routes
   end
 
   def sync
     update_data
+    return unless self.data
     collection.bulk_write(create_query + remove_query + update_query)
   end
 
