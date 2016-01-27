@@ -19,13 +19,18 @@ class VehicleSynchronizer
   private
 
   def update_data
-    self.data = ATApi.new.get_locations['response']['entity'].map do |e|
-      {
-        route_id: e['vehicle']['trip']['route_id'],
-        lat: e['vehicle']['position']['latitude'],
-        lon: e['vehicle']['position']['longitude'],
-        _id: e['vehicle']['vehicle']['id']
-      }
+    response = ATApi.new.get_locations
+    if response
+      self.data = response['response']['entity'].map do |e|
+        {
+          route_id: e['vehicle']['trip']['route_id'],
+          lat: e['vehicle']['position']['latitude'],
+          lon: e['vehicle']['position']['longitude'],
+          _id: e['vehicle']['vehicle']['id']
+        }
+      end
+    else
+      self.data = []
     end
     self.existed_data = collection.find.to_a
   end
