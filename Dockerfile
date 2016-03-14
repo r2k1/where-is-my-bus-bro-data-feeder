@@ -1,5 +1,5 @@
 FROM ruby:2.3
-RUN bundle install
 COPY Gemfile Gemfile
 COPY app app
+RUN bundle install
 CMD bundle exec ruby app/sync.rb
